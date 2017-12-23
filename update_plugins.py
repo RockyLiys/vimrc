@@ -55,6 +55,10 @@ vim-abolish https://github.com/tpope/tpope-vim-abolish
 mru.vim https://github.com/vim-scripts/mru.vim
 """.strip()
 
+NO_MASTER = """
+python-mode https://github.com/python-mode/python-mode.git
+""".strip()
+
 GITHUB_ZIP = '%s/archive/master.zip'
 
 SOURCE_DIR = path.join(path.dirname(__file__), 'sources_non_forked')
@@ -70,8 +74,7 @@ def download_extract_replace(plugin_name, zip_path, temp_dir, source_dir):
     zip_f = zipfile.ZipFile(temp_zip_path)
     zip_f.extractall(temp_dir)
 
-    plugin_temp_path = path.join(temp_dir,
-                                 path.join(temp_dir, '%s-master' % plugin_name))
+    plugin_temp_path = path.join(temp_dir,path.join(temp_dir, '%s-master' % plugin_name))
 
     # Remove the current plugin and replace it with the extracted
     plugin_dest_path = path.join(source_dir, plugin_name)
