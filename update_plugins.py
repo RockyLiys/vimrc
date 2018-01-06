@@ -1,3 +1,4 @@
+#! coding=utf-8
 try:
     import concurrent.futures as futures
 except ImportError:
@@ -56,7 +57,7 @@ mru.vim https://github.com/vim-scripts/mru.vim
 """.strip()
 
 NO_MASTER = """
-python-mode https://github.com/python-mode/python-mode.git
+python-mode https://github.com/RockyLiys/python-mode.git
 """.strip()
 
 GITHUB_ZIP = '%s/archive/master.zip'
@@ -88,18 +89,24 @@ def download_extract_replace(plugin_name, zip_path, temp_dir, source_dir):
 
     print('Updated {0}'.format(plugin_name))
 
+def git_clone_download_extract(git_path):
+    name, github_url = git_path.split(' ')
+    print name, github_url
 
 def update(plugin):
     name, github_url = plugin.split(' ')
     zip_path = GITHUB_ZIP % github_url
-    download_extract_replace(name, zip_path,
-                             temp_directory, SOURCE_DIR)
+    # TODO需要加载自定义的vim插件
+    print zip_path
+    #download_extract_replace(name, zip_path, temp_directory, SOURCE_DIR)
 
 
 if __name__ == '__main__':
     temp_directory = tempfile.mkdtemp()
 
     try:
+
+        [git_clone_download_extract(x) for x in NO_MASTER.splitlines()]
         if futures:
             with futures.ThreadPoolExecutor(16) as executor:
                 executor.map(update, PLUGINS.splitlines())
